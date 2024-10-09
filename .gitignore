@@ -1,6 +1,6 @@
 # Cargo.lock file is automatically generated for each Rust project.
 Cargo.lock
-
+.env
 # Generated target directory
 /target/
 **/target/
