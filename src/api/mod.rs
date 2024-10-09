@@ -1,4 +1,4 @@
-mod products;
+pub mod products;
 mod categories;
 mod users;
 mod payments;
