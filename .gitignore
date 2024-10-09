@@ -1,0 +1,25 @@
+# Cargo.lock file is automatically generated for each Rust project.
+Cargo.lock
+
+# Generated target directory
+/target/
+**/target/
+# Ignore build output
+**/*.rs.bk
+**/*.rl
+**/*.rs.bk.*
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore IntelliJ IDEA settings
+.idea/
+
+# Ignore compiled files
+**/*.rs.bk
+**/*.rl
+**/*.rs.bk.*
+
+# Ignore hidden files and directories
+.*.swp
+.DS_Store
