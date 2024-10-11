@@ -1,3 +1,3 @@
 mod service;
-mod model;
 mod repository;
+pub mod model;

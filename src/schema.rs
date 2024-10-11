@@ -136,6 +136,46 @@ diesel::table! {
 }
 
 diesel::table! {
+    product_inventory (product_id) {
+        product_id -> Int4,
+        initial_quantity -> Nullable<Int4>,
+        available_quantity -> Nullable<Int4>,
+        sold_quantity -> Nullable<Int4>,
+    }
+}
+
+diesel::table! {
+    product_listing (product_id) {
+        product_id -> Int4,
+        #[max_length = 20]
+        listing_type_id -> Nullable<Varchar>,
+        #[max_length = 50]
+        listing_source -> Nullable<Varchar>,
+        catalog_listing -> Nullable<Bool>,
+    }
+}
+
+diesel::table! {
+    product_media (product_id) {
+        product_id -> Int4,
+        permalink -> Varchar,
+        thumbnail_id -> Varchar,
+        thumbnail -> Varchar,
+    }
+}
+
+diesel::table! {
+    product_price (product_id) {
+        product_id -> Int4,
+        price -> Nullable<Numeric>,
+        base_price -> Nullable<Numeric>,
+        original_price -> Nullable<Numeric>,
+        #[max_length = 3]
+        currency_id -> Nullable<Varchar>,
+    }
+}
+
+diesel::table! {
     products (product_id) {
         product_id -> Int4,
         #[max_length = 20]
@@ -148,30 +188,17 @@ diesel::table! {
         #[max_length = 20]
         category_id -> Nullable<Varchar>,
         official_store_id -> Nullable<Int4>,
-        price -> Nullable<Numeric>,
-        base_price -> Nullable<Numeric>,
-        original_price -> Nullable<Numeric>,
-        #[max_length = 3]
-        currency_id -> Nullable<Varchar>,
         initial_quantity -> Nullable<Int4>,
         available_quantity -> Nullable<Int4>,
         sold_quantity -> Nullable<Int4>,
         #[max_length = 20]
         buying_mode -> Nullable<Varchar>,
-        #[max_length = 20]
-        listing_type_id -> Nullable<Varchar>,
         start_time -> Nullable<Timestamptz>,
         stop_time -> Nullable<Timestamptz>,
         #[max_length = 20]
         condition -> Nullable<Varchar>,
-        permalink -> Nullable<Text>,
-        #[max_length = 50]
-        thumbnail_id -> Nullable<Varchar>,
-        thumbnail -> Nullable<Text>,
         #[max_length = 20]
         international_delivery_mode -> Nullable<Varchar>,
-        #[max_length = 50]
-        listing_source -> Nullable<Varchar>,
         #[max_length = 20]
         status -> Nullable<Varchar>,
         #[max_length = 50]
@@ -186,7 +213,6 @@ diesel::table! {
         date_created -> Nullable<Timestamptz>,
         last_updated -> Nullable<Timestamptz>,
         health -> Nullable<Int4>,
-        catalog_listing -> Nullable<Bool>,
     }
 }
 
@@ -359,6 +385,10 @@ diesel::joinable!(descriptions -> products (product_id));
 diesel::joinable!(identification -> users (user_id));
 diesel::joinable!(phone -> users (user_id));
 diesel::joinable!(pictures -> products (product_id));
+diesel::joinable!(product_inventory -> products (product_id));
+diesel::joinable!(product_listing -> products (product_id));
+diesel::joinable!(product_media -> products (product_id));
+diesel::joinable!(product_price -> products (product_id));
 diesel::joinable!(sale_terms -> products (product_id));
 diesel::joinable!(seller_address -> products (product_id));
 diesel::joinable!(seller_payment_methods -> products (product_id));
@@ -380,6 +410,10 @@ diesel::allow_tables_to_appear_in_same_query!(
     identification,
     phone,
     pictures,
+    product_inventory,
+    product_listing,
+    product_media,
+    product_price,
     products,
     sale_terms,
     seller_address,
