@@ -5,7 +5,7 @@ use diesel::prelude::*;
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Media {
     pub product_id: i32,
-    pub permalink: Option<String>,
-    pub thumbnail_id: Option<String>,
-    pub thumbnail: Option<String>,
+    pub permalink: String,
+    pub thumbnail_id: String,
+    pub thumbnail: String,
 }
