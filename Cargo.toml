@@ -27,3 +27,6 @@ diesel = { version = "^2.2.4", features = [
 ] }
 lettre = "0.11.9"
 bigdecimal = { version = "0.4.5", features = ["serde"] }
+log = "0.4"
+env_logger = "0.11.5"
+config = "0.14.0"

@@ -1,21 +1,29 @@
-use actix_web::{delete, get, post, put, HttpResponse, Responder};
+use actix_web::{delete, get, post, put, web, HttpResponse, Responder, Scope};
 
-#[post("/products")]
-pub async fn create() -> impl Responder {
+pub fn product_scope() -> Scope {
+  web::scope("/products")
+      .service(create_product)
+      .service(find_products)
+      .service(update_product)
+      .service(delete_product)
+}
+
+#[post("")]
+async fn create_product() -> impl Responder {
     HttpResponse::Ok().body("Create Products")
 }
 
-#[get("/products")]
-pub async fn find() -> impl Responder {
+#[get("")]
+async fn find_products() -> impl Responder {
     HttpResponse::Ok().body("Get Products")
 }
 
-#[put("/products")]
-pub async fn update() -> impl Responder {
+#[put("")]
+async fn update_product() -> impl Responder {
     HttpResponse::Ok().body("Update Products")
 }
 
-#[delete("/products")]
-pub async fn delete() -> impl Responder {
+#[delete("")]
+async fn delete_product() -> impl Responder {
     HttpResponse::Ok().body("Delete Products")
 }

@@ -1,4 +1,5 @@
-use actix_web::{App, HttpServer};
+use actix_web::{web, App, HttpServer};
+use log::info;
 
 mod api;
 mod config;
@@ -8,15 +9,17 @@ mod schema;
 mod exceptions;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("Hello, world!");
+    env_logger::init();
+    let db_connection = db::connection::db_connection();
 
-    HttpServer::new(|| {
+    info!("{:?}", config::environment::read_setting());
+
+    HttpServer::new(move || {
         App::new()
-            .service(api::products::create)
-            .service(api::products::find)
-            .service(api::products::update)
+            .app_data(web::Data::new(db_connection.clone()))
+            .service(api::products::product_scope())
     })
-        .bind(("127.0.0.1", 8080))?
+        .bind((config::environment::read_setting().server.host, config::environment::read_setting().server.port))?
         .run()
         .await
 }

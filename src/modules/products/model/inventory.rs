@@ -1,4 +1,3 @@
-use bigdecimal::BigDecimal;
 use diesel::prelude::*;
 
 #[derive(Queryable, Selectable, Insertable)]
