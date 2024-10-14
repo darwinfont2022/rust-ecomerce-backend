@@ -1,11 +1,2 @@
-pub mod product;
-pub mod inventory;
-pub mod listing;
-pub mod media;
-pub mod price;
-mod address;
-mod payment_method;
-mod reputation;
-mod shipping;
-mod status;
-mod tags;
+pub mod dto;
+pub mod domain;

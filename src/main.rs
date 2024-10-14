@@ -12,8 +12,6 @@ async fn main() -> std::io::Result<()> {
     env_logger::init();
     let db_connection = db::connection::db_connection();
 
-    info!("{:?}", config::environment::read_setting());
-
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(db_connection.clone()))

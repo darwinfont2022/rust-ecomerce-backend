@@ -1,4 +1,6 @@
 use actix_web::{delete, get, post, put, web, HttpResponse, Responder, Scope};
+use crate::db::db_pool::DbPool;
+use crate::modules::products::model::dto::product_req_dto::ProductReqDTO;
 
 pub fn product_scope() -> Scope {
   web::scope("/products")
@@ -9,7 +11,10 @@ pub fn product_scope() -> Scope {
 }
 
 #[post("")]
-async fn create_product() -> impl Responder {
+async fn create_product(
+    db_pool: web::Data<DbPool>,
+    product_dto: web::Json<ProductReqDTO>
+) -> impl Responder {
     HttpResponse::Ok().body("Create Products")
 }
 
