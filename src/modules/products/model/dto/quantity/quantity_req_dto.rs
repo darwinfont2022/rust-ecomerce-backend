@@ -1,8 +1,9 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct QuantityReqDto {
+    #[serde(rename = "initialQuantity")]
     pub initial_quantity: i32,
+    #[serde(rename = "availableQuantity")]
     pub available_quantity: Option<i32>,
-    pub sold_quantity: Option<i32>,
 }

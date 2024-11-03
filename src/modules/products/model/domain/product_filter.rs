@@ -1,12 +1,11 @@
-use diesel::prelude::{Selectable, Queryable};
-use serde::Serialize;
+use serde::Deserialize;
 
-#[derive(Queryable, Selectable, Serialize, Debug)]
-#[diesel(table_name = crate::schema::products)]
-#[diesel(check_for_backend(diesel::pg::Pg))]
-pub struct Product {
-    pub product_id: i32,
-    pub mlb_id: String,
+#[derive(Debug, Deserialize)]
+pub struct ProductFilter {
+    pub page: Option<i64>,
+    pub limit: Option<i64>,
+    pub id: Option<i32>,
+    pub mlb_id: Option<String>,
     pub site_id: Option<String>,
     pub title: Option<String>,
     pub category_id: Option<String>,

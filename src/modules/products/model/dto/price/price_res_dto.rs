@@ -1,11 +1,9 @@
-use diesel::prelude::{Selectable, Queryable};
-use serde::Serialize;
+use bigdecimal::BigDecimal;
+use serde::{Serialize};
 
-#[derive(Queryable, Selectable, Serialize, Debug)]
-#[diesel(table_name = crate::schema::products)]
-#[diesel(check_for_backend(diesel::pg::Pg))]
-pub struct Product {
-    pub product_id: i32,
+#[derive(Debug, Serialize, , Clone)]
+pub struct PriceResDTO {
+    // pub product_id: i32,
     pub mlb_id: String,
     pub site_id: Option<String>,
     pub title: Option<String>,

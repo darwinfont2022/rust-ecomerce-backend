@@ -9,3 +9,6 @@ mod reputation;
 mod shipping;
 mod status;
 mod tags;
+pub mod product_new;
+pub mod product_filter;
+pub mod product_page;
