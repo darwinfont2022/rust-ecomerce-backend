@@ -12,3 +12,4 @@ mod tags;
 pub mod product_new;
 pub mod product_filter;
 pub mod product_page;
+pub mod product_update;

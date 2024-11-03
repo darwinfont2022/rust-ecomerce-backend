@@ -48,7 +48,6 @@ impl Product {
             .load_page(conn)
             .expect("error");
 
-        println!("{:?}", results);
         results
     }
 }

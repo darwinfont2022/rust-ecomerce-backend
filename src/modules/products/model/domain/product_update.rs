@@ -1,10 +1,14 @@
-use diesel::Insertable;
+use diesel::{AsChangeset, Identifiable, Insertable, Queryable};
+use diesel::sql_types::Uuid;
 use crate::modules::products::model::dto::product_req_dto::ProductReqDTO;
 use crate::schema::products;
-#[derive(Insertable, Debug, Clone)]
+#[derive(Queryable, Identifiable, AsChangeset)]
 #[diesel(table_name = products)]
-pub struct ProductNew {
-    pub mlb_id: String,
+#[diesel(check_for_backend(diesel::pg::Pg))]
+#[diesel(primary_key(product_id))]
+pub struct ProductUpdate {
+    pub product_id: i32,
+    pub mlb_id: Option<String>,
     pub site_id: Option<String>,
     pub title: Option<String>,
     pub category_id: Option<String>,
@@ -21,15 +25,15 @@ pub struct ProductNew {
     pub parent_item_id: Option<String>,
     pub automatic_relist: Option<bool>,
     pub health: Option<i32>,
-    pub date_created: Option<chrono::NaiveDateTime>,
     pub last_updated: Option<chrono::NaiveDateTime>,
 }
 
-impl From<ProductReqDTO> for ProductNew {
-    fn from(value: ProductReqDTO) -> Self {
+impl ProductUpdate {
+    pub fn from(id: i32 ,value: ProductReqDTO) -> Self {
         let now = chrono::Utc::now().naive_utc();
-        ProductNew {
-            mlb_id: value.mlb_id,
+        ProductUpdate {
+            product_id: id,
+            mlb_id: Some(value.mlb_id),
             site_id: value.site_id,
             title: value.title,
             category_id: value.category_id,
@@ -46,7 +50,6 @@ impl From<ProductReqDTO> for ProductNew {
             parent_item_id: value.parent_item_id,
             automatic_relist: value.automatic_relist,
             health: None,
-            date_created: Some(now),
             last_updated: Some(now),
         }
     }

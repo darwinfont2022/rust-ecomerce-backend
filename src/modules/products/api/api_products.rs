@@ -3,6 +3,7 @@ use crate::db::db_pool::DbPool;
 use crate::modules::products::model::domain::product::Product;
 use crate::modules::products::model::domain::product_filter::ProductFilter;
 use crate::modules::products::model::domain::product_new::ProductNew;
+use crate::modules::products::model::domain::product_update::ProductUpdate;
 use crate::modules::products::model::dto::product_req_dto::ProductReqDTO;
 
 pub fn product_scope() -> Scope {
@@ -34,7 +35,7 @@ async fn find_by_id(id: web::Path<i32>, db_pool: web::Data<DbPool>) -> impl Resp
 
     match rsp {
         Ok(rsp) => HttpResponse::Ok().json(rsp),
-        Err(_) => HttpResponse::InternalServerError().finish()
+        Err(_) => HttpResponse::NotFound().finish()
     }
 }
 #[get("")]
@@ -50,13 +51,26 @@ async fn find_products(
 #[put("/{id}")]
 async fn update_product(
     db_pool: web::Data<DbPool>,
-    path: web::Path<u32>,
+    id: web::Path<i32>,
     product_dto: web::Json<ProductReqDTO>
 ) -> impl Responder {
-    HttpResponse::Ok().body("Update Products")
+    let mut conn = db_pool.get().expect("couldn't get db connection from pool");
+
+    match Product::update(&mut conn, ProductUpdate::from(id.into_inner(), product_dto.into_inner())) {
+        Ok(rsp) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::NotFound().finish()
+    }
 }
 
 #[delete("/{id}")]
-async fn delete_product(path: web::Path<u32>) -> impl Responder {
-    HttpResponse::Ok().body("Delete Products")
+async fn delete_product(
+    id: web::Path<i32>,
+    db_pool: web::Data<DbPool>
+) -> impl Responder {
+    let mut conn = db_pool.get().expect("couldn't get db connection from pool");
+
+    match Product::delete(&mut conn, id.into_inner()) {
+        Ok(rsp) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::NotFound().finish()
+    }
 }

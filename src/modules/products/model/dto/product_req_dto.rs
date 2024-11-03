@@ -14,8 +14,8 @@ pub struct ProductReqDTO {
     #[validate(max_length= 10)]
     #[serde(rename = "siteId")]
     pub site_id: Option<String>,
-    pub title: String,
-    pub seller_id: i32,
+    pub title: Option<String>,
+    pub seller_id: Option<i32>,
     #[serde(rename = "categoryId")]
     // #[validate(max_length = 20)]
     pub category_id: Option<String>,
