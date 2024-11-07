@@ -6,3 +6,4 @@ pub mod products;
 mod users;
 mod shared;
 mod shops;
+pub mod variations;
