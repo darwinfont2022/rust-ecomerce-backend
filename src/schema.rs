@@ -165,13 +165,18 @@ diesel::table! {
 }
 
 diesel::table! {
-    product_price (product_id) {
+    product_price (price_id) {
+        price_id -> Int4,
         product_id -> Int4,
         price -> Nullable<Numeric>,
         base_price -> Nullable<Numeric>,
         original_price -> Nullable<Numeric>,
         #[max_length = 3]
         currency_id -> Nullable<Varchar>,
+        #[max_length = 250]
+        price_type -> Nullable<Varchar>,
+        create_at -> Nullable<Timestamp>,
+        update_at -> Nullable<Timestamp>,
     }
 }
 
@@ -364,10 +369,25 @@ diesel::table! {
 }
 
 diesel::table! {
-    variations (product_id) {
-        product_id -> Int4,
-        variation_id -> Nullable<Int8>,
+    variation_price (price_id) {
+        price_id -> Int4,
+        variation_id -> Int4,
         price -> Nullable<Numeric>,
+        base_price -> Nullable<Numeric>,
+        original_price -> Nullable<Numeric>,
+        #[max_length = 3]
+        currency_id -> Nullable<Varchar>,
+        #[max_length = 250]
+        price_type -> Nullable<Varchar>,
+        create_at -> Nullable<Timestamp>,
+        update_at -> Nullable<Timestamp>,
+    }
+}
+
+diesel::table! {
+    variations (variation_id) {
+        product_id -> Nullable<Int4>,
+        variation_id -> Int4,
         available_quantity -> Nullable<Int4>,
         sold_quantity -> Nullable<Int4>,
         #[max_length = 20]
@@ -377,7 +397,6 @@ diesel::table! {
 
 diesel::joinable!(address -> users (user_id));
 diesel::joinable!(alternative_phone -> users (user_id));
-diesel::joinable!(attribute_combinations -> variations (product_id));
 diesel::joinable!(attributes -> products (product_id));
 diesel::joinable!(buyer_reputation -> users (user_id));
 diesel::joinable!(credit -> users (user_id));
@@ -397,6 +416,7 @@ diesel::joinable!(shipping -> products (product_id));
 diesel::joinable!(status -> users (user_id));
 diesel::joinable!(user_tags -> tags (tag_id));
 diesel::joinable!(user_tags -> users (user_id));
+diesel::joinable!(variation_price -> variations (variation_id));
 diesel::joinable!(variations -> products (product_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
@@ -424,5 +444,6 @@ diesel::allow_tables_to_appear_in_same_query!(
     tags,
     user_tags,
     users,
+    variation_price,
     variations,
 );

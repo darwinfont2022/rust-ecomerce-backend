@@ -1,5 +1,6 @@
 use actix_web::{web, App, HttpServer};
 use modules::products;
+use crate::modules::variations::api::VariationApi;
 
 mod api;
 mod config;
@@ -16,6 +17,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(db_connection.clone()))
             .service(products::api::api_products::product_scope())
+            .service(VariationApi::scope())
     })
         .bind((config::environment::read_setting().server.host, config::environment::read_setting().server.port))?
         .run()

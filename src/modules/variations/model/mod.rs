@@ -1,3 +1,2 @@
-mod variation_new;
-mod variation_update;
-mod variation;
+pub mod domain;
+pub mod dto;

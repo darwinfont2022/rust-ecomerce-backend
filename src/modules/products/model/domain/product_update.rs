@@ -1,5 +1,4 @@
-use diesel::{AsChangeset, Identifiable, Insertable, Queryable};
-use diesel::sql_types::Uuid;
+use diesel::{AsChangeset, Identifiable, Queryable};
 use crate::modules::products::model::dto::product_req_dto::ProductReqDTO;
 use crate::schema::products;
 #[derive(Queryable, Identifiable, AsChangeset)]
