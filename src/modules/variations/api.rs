@@ -21,8 +21,8 @@ async fn save_variation(
     variation_dto: web::Json<VariationDto>
 ) -> impl Responder {
     let mut conn = db_pool.get().expect("couldn't get db connection from pool");
-    let variation_dto: VariationDto = variation_dto.into_inner();
-    match Variation::save_full_variation(&mut conn, variation_dto.into()) {
+
+    match Variation::save_full_variation(&mut conn, variation_dto.into_inner()) {
         Ok(resp) => HttpResponse::Ok().json(resp),
         Err(e) => HttpResponse::InternalServerError().body(e.to_string()),
     }

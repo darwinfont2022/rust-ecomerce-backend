@@ -27,10 +27,11 @@ diesel::table! {
 }
 
 diesel::table! {
-    attribute_combinations (product_id, combination_id) {
-        product_id -> Int4,
+    attribute_combinations (combination_id) {
+        combination_id -> Int4,
+        variation_id -> Int4,
         #[max_length = 50]
-        combination_id -> Varchar,
+        combination_external_id -> Nullable<Varchar>,
         #[max_length = 255]
         combination_name -> Nullable<Varchar>,
         #[max_length = 50]
@@ -397,6 +398,7 @@ diesel::table! {
 
 diesel::joinable!(address -> users (user_id));
 diesel::joinable!(alternative_phone -> users (user_id));
+diesel::joinable!(attribute_combinations -> variations (variation_id));
 diesel::joinable!(attributes -> products (product_id));
 diesel::joinable!(buyer_reputation -> users (user_id));
 diesel::joinable!(credit -> users (user_id));

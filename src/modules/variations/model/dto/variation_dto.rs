@@ -1,5 +1,9 @@
 use serde::{Deserialize, Serialize};
-use crate::modules::variations::model::dto::variation_price_dto::{VariationPriceDto, VariationPriceDtoRes};
+use crate::modules::attribute_combinations::model::domain::attribute_combination::AttributeCombination;
+use crate::modules::variation_price::model::dto::variation_price_dto::{VariationPriceDto, VariationPriceDtoRes};
+use crate::modules::attribute_combinations::model::dto::attribute_combination_dto::{AttributeCombinationReq, AttributeCombinationRes};
+use crate::modules::variations::model::domain::variation::Variation;
+use crate::modules::variation_price::model::domain::variation_price::VariationPrice;
 
 #[derive(Deserialize, Clone ,Debug)]
 pub struct VariationDto {
@@ -7,28 +11,25 @@ pub struct VariationDto {
     pub available_quantity: Option<i32>,
     pub sold_quantity: Option<i32>,
     pub catalog_product_id: Option<String>,
-    pub price: VariationPriceDto
+    pub price: VariationPriceDto,
+    pub attributes_variations: Option<Vec<AttributeCombinationReq>>,
 }
 
 #[derive(Serialize, Debug)]
 pub struct VariationDtoRes {
-    pub variation_id: i32,
-    pub product_id: Option<i32>,
-    pub available_quantity: Option<i32>,
-    pub sold_quantity: Option<i32>,
-    pub catalog_product_id: Option<String>,
-    pub price: Option<VariationPriceDtoRes>
+    #[serde(flatten)]
+    pub variation: Variation,
+
+    pub price: VariationPrice,
+    pub attributes_variations: Vec<AttributeCombination>,
 }
 
 impl VariationDtoRes {
     pub fn new() -> Self {
         Self {
-            variation_id: 0,
-            product_id: None,
-            available_quantity: None,
-            sold_quantity: None,
-            catalog_product_id: None,
-            price: None,
+            variation: Variation::new(),
+            price: VariationPrice::new(),
+            attributes_variations: Vec::new(),
         }
     }
 }
