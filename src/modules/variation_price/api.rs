@@ -1,6 +1,7 @@
 use crate::modules::variation_price::model::domain::variation_price::VariationPrice;
-use actix_web::{delete, get, post, put, web, HttpResponse, Responder, Scope};
+use actix_web::{delete, get, post, put, web, HttpResponse, Responder, ResponseError, Scope};
 use crate::db::db_pool::DbPool;
+use crate::exceptions::exception::ApiException;
 use crate::modules::variation_price::model::dto::variation_price_dto::{VariationPriceDto, VariationPriceUpdateReq};
 use crate::modules::variation_price::model::dto::variation_price_query::VariationPriceQuery;
 
@@ -38,8 +39,8 @@ async fn load(db_pool: web::Data<DbPool>, querys: web::Query<VariationPriceQuery
     if detail {
         match VariationPrice::find_all_by_variation(&mut conn, querys.variation_id) {
             Ok(res) => HttpResponse::Ok().json(res),
-            Err(error) => {
-                HttpResponse::BadRequest().json(error.to_string())
+            Err(_) => {
+                ApiException::not_found(format!("variation price by variation id {}", querys.variation_id).as_str(), None)
             }
         }
     } else {
@@ -47,8 +48,8 @@ async fn load(db_pool: web::Data<DbPool>, querys: web::Query<VariationPriceQuery
             Ok(result) => {
                 HttpResponse::Ok().json(result)
             },
-            Err(e) => {
-                HttpResponse::BadRequest().json(e.to_string())
+            Err(_) => {
+                ApiException::not_found(format!("variation price by variation id {}", querys.variation_id).as_str(), None)
             }
         }
     }
@@ -58,12 +59,14 @@ async fn load(db_pool: web::Data<DbPool>, querys: web::Query<VariationPriceQuery
 async fn update(db_poll: web::Data<DbPool>, id: web::Path<i32>, dto: web::Json<VariationPriceUpdateReq>) -> impl Responder {
     let mut conn = db_poll.get().expect("Can't get DB connection");
 
-    match VariationPrice::update(&mut conn, id.into_inner(), dto.into_inner().into()) {
+    let id = id.into_inner();
+
+    match VariationPrice::update(&mut conn, id.clone(), dto.into_inner().into()) {
         Ok(_) => {
             HttpResponse::Ok().finish()
         }
         Err(e) => {
-            HttpResponse::BadRequest().json(e.to_string())
+            ApiException::not_found(format!("variation price by price_id {}", id).as_str(), None)
         }
     }
 }
@@ -71,12 +74,13 @@ async fn update(db_poll: web::Data<DbPool>, id: web::Path<i32>, dto: web::Json<V
 #[delete("/{price_id}")]
 async fn delete(db_poll: web::Data<DbPool>, id: web::Path<i32>) -> impl Responder {
     let mut conn = db_poll.get().expect("Can't get DB connection");
-    match VariationPrice::delete(&mut conn, id.into_inner()) {
+    let id = id.into_inner();
+    match VariationPrice::delete(&mut conn, &id) {
         Ok(_) => {
             HttpResponse::Ok().finish()
         },
         Err(e) => {
-            HttpResponse::BadRequest().json(e.to_string())
+            ApiException::not_found(format!("variation price by price id {}", &id).as_str(), None)
         }
     }
 }

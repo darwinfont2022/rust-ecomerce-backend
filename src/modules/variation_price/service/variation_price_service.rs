@@ -42,7 +42,7 @@ impl VariationPrice {
             .execute(conn)
     }
 
-    pub fn delete(conn: &mut PgConnection, variation_price_id: i32) -> Result<usize, DieselError> {
+    pub fn delete(conn: &mut PgConnection, variation_price_id: &i32) -> Result<usize, DieselError> {
         use crate::schema::variation_price::dsl::*;
 
         diesel::delete(variation_price.filter(price_id.eq(variation_price_id)))
