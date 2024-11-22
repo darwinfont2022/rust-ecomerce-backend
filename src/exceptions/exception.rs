@@ -21,7 +21,7 @@ impl ApiException {
     pub fn not_found(message: &str, details: Option<HashMap<String, String>>) -> HttpResponse {
         ApiException::Error {
             status: StatusCode::NOT_FOUND,
-            message: String::from(message),
+            message: format!("NOT FOUND {}", message),
             details,
         }.error_response()
     }
@@ -29,7 +29,7 @@ impl ApiException {
     pub fn internal_server_error(message: &String, details: Option<HashMap<String, String>>) -> HttpResponse {
         ApiException::Error {
             status: StatusCode::INTERNAL_SERVER_ERROR,
-            message: format!("Not found {}", message),
+            message: format!("INTERNAL_SERVER_ERROR {}", message),
             details,
         }.error_response()
     }
