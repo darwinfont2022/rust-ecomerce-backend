@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
+use std::fmt::{Display};
 use actix_web::{error, HttpResponse, http::{
     header::ContentType,
     StatusCode

@@ -57,7 +57,7 @@ async fn update_product(
     let mut conn = db_pool.get().expect("couldn't get db connection from pool");
 
     match Product::update(&mut conn, ProductUpdate::from(id.into_inner(), product_dto.into_inner())) {
-        Ok(rsp) => HttpResponse::Ok().finish(),
+        Ok(_) => HttpResponse::Ok().finish(),
         Err(_) => HttpResponse::NotFound().finish()
     }
 }
@@ -70,7 +70,7 @@ async fn delete_product(
     let mut conn = db_pool.get().expect("couldn't get db connection from pool");
 
     match Product::delete(&mut conn, id.into_inner()) {
-        Ok(rsp) => HttpResponse::Ok().finish(),
+        Ok(_) => HttpResponse::Ok().finish(),
         Err(_) => HttpResponse::NotFound().finish()
     }
 }

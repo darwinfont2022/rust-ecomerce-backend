@@ -1,5 +1,5 @@
 use crate::modules::variation_price::model::domain::variation_price::VariationPrice;
-use actix_web::{delete, get, post, put, web, HttpResponse, Responder, ResponseError, Scope};
+use actix_web::{delete, get, post, put, web, HttpResponse, Responder, Scope};
 use crate::db::db_pool::DbPool;
 use crate::exceptions::exception::ApiException;
 use crate::modules::variation_price::model::dto::variation_price_dto::{VariationPriceDto, VariationPriceUpdateReq};
@@ -65,7 +65,7 @@ async fn update(db_poll: web::Data<DbPool>, id: web::Path<i32>, dto: web::Json<V
         Ok(_) => {
             HttpResponse::Ok().finish()
         }
-        Err(e) => {
+        Err(_) => {
             ApiException::not_found(format!("variation price by price_id {}", id).as_str(), None)
         }
     }
@@ -79,7 +79,7 @@ async fn delete(db_poll: web::Data<DbPool>, id: web::Path<i32>) -> impl Responde
         Ok(_) => {
             HttpResponse::Ok().finish()
         },
-        Err(e) => {
+        Err(_) => {
             ApiException::not_found(format!("variation price by price id {}", &id).as_str(), None)
         }
     }

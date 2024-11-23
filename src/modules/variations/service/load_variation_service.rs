@@ -2,7 +2,6 @@ use diesel::{Connection, PgConnection, QueryDsl, QueryResult, RunQueryDsl, Belon
 use diesel::result::Error as DieselError;
 use diesel::SelectableHelper;
 use diesel::ExpressionMethods;
-use futures::StreamExt;
 use crate::modules::variations::model::domain::variation::Variation;
 use crate::modules::attribute_combinations::model::domain::attribute_combination::AttributeCombination;
 use crate::modules::variations::model::dto::variation_dto::VariationDtoRes;

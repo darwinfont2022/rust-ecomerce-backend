@@ -1,4 +1,3 @@
-use bigdecimal::BigDecimal;
 use diesel::{AsChangeset, Identifiable, Queryable};
 use crate::schema::variations;
 #[derive(Queryable, Identifiable, AsChangeset)]

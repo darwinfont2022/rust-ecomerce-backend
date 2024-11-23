@@ -1,13 +1,11 @@
-use diesel::{Connection, QueryDsl, ExpressionMethods};
+use diesel::Connection;
 use diesel::prelude::{PgConnection, RunQueryDsl, SelectableHelper};
-use diesel::result::{DatabaseErrorKind, Error as DieselError};
+use diesel::result::Error as DieselError;
 use crate::modules::attribute_combinations::model::domain::attribute_combination::AttributeCombination;
 use crate::modules::variations::model::domain::variation::Variation;
 use crate::modules::variation_price::model::domain::variation_price::{VariationPrice, NewVariationPrice};
 use crate::modules::variations::model::domain::variation_new::VariationNew;
 use crate::modules::variations::model::dto::variation_dto::{VariationDto, VariationDtoRes};
-use crate::modules::variation_price::model::dto::variation_price_dto::VariationPriceDtoRes;
-use crate::schema::variations::dsl::variations;
 
 impl Variation {
     pub fn save_variation(conn: &mut PgConnection, variation_new: VariationNew) -> Result<Variation, DieselError> {

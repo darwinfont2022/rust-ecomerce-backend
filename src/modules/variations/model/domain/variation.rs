@@ -1,6 +1,5 @@
 use diesel::{Identifiable, Queryable, Selectable};
 use serde::Serialize;
-use crate::schema::variations::dsl::*;
 
 #[derive(Queryable, Selectable, Identifiable, Serialize, Debug)]
 #[diesel(table_name = crate::schema::variations)]
