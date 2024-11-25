@@ -1,5 +1,6 @@
 use actix_web::{web, App, HttpServer};
 use modules::products;
+use crate::modules::attribute::domain::attribute::Attribute;
 use crate::modules::attribute_combinations::model::domain::attribute_combination::AttributeCombination;
 use crate::modules::variation_price::model::domain::variation_price::VariationPrice;
 use crate::modules::variations::api::VariationApi;
@@ -19,6 +20,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(db_connection.clone()))
             .service(products::api::api_products::product_scope())
+            .service(Attribute::api())
             .service(VariationApi::scope())
             .service(VariationPrice::api())
             .service(AttributeCombination::api())

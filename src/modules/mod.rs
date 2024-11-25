@@ -9,3 +9,4 @@ mod shops;
 pub mod variations;
 pub mod attribute_combinations;
 pub mod variation_price;
+pub mod attribute;
