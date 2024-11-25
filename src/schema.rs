@@ -42,10 +42,9 @@ diesel::table! {
 }
 
 diesel::table! {
-    attributes (product_id) {
-        product_id -> Int4,
-        #[max_length = 50]
-        attribute_id -> Nullable<Varchar>,
+    attributes (attribute_id) {
+        attribute_id -> Int4,
+        product_id -> Nullable<Int4>,
         #[max_length = 255]
         attribute_name -> Nullable<Varchar>,
         #[max_length = 50]
@@ -58,6 +57,8 @@ diesel::table! {
         attribute_group_name -> Nullable<Varchar>,
         #[max_length = 20]
         value_type -> Nullable<Varchar>,
+        created_ad -> Nullable<Timestamp>,
+        updated_ad -> Nullable<Timestamp>,
     }
 }
 
