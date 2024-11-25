@@ -4,7 +4,8 @@ use serde::Serialize;
 use crate::db::utils::now;
 use crate::modules::variations::model::domain::variation::Variation;
 
-#[derive(Queryable, Selectable, Identifiable, Serialize, Debug)]
+
+#[derive(Queryable, Selectable, Identifiable, Associations, Serialize, Clone,Debug)]
 #[diesel(table_name = crate::schema::variation_price)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 #[diesel(primary_key(price_id))]

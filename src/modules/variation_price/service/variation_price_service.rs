@@ -1,11 +1,11 @@
 use crate::modules::variation_price::model::domain::variation_price::{VariationPrice, NewVariationPrice, VariationPriceUpdate};
+use crate::modules::variations::model::domain::variation::Variation;
 use diesel::result::Error as DieselError;
-use diesel::prelude::{PgConnection, RunQueryDsl, SelectableHelper};
-use diesel::{ExpressionMethods, QueryDsl};
-use crate::schema::variation_price::dsl::variation_price;
+use diesel::prelude::{PgConnection, RunQueryDsl, SelectableHelper, BelongingToDsl, ExpressionMethods, QueryDsl};
 
 impl VariationPrice {
     pub fn save(conn: &mut PgConnection, mut price_new: NewVariationPrice, id_variation: i32) -> Result<Self, DieselError> {
+        use crate::schema::variation_price::dsl::*;
         price_new.variation_id = id_variation;
 
         diesel::insert_into(variation_price)
@@ -29,6 +29,12 @@ impl VariationPrice {
         variation_price.select(VariationPrice::as_returning())
             .order_by(price_id.desc())
             .filter(variation_id.eq(variation))
+            .load(conn)
+    }
+
+    pub fn find_all_by_parents(conn: &mut PgConnection,vtns: &Vec<Variation>) -> Result<Vec<VariationPrice>, DieselError> {
+        VariationPrice::belonging_to(vtns)
+            .select(VariationPrice::as_select())
             .load(conn)
     }
 

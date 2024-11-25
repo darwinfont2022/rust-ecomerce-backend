@@ -6,7 +6,7 @@ impl From<Variation> for VariationDtoRes {
     fn from(variation: Variation) -> Self {
         VariationDtoRes {
             variation,
-            price: VariationPrice::new(),
+            price: Vec::new(),
             attributes_variations: Vec::new(),
         }
     }

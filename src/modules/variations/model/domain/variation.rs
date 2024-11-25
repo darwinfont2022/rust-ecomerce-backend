@@ -1,7 +1,7 @@
 use diesel::{Identifiable, Queryable, Selectable};
 use serde::Serialize;
 
-#[derive(Queryable, Selectable, Identifiable, Serialize, Debug)]
+#[derive(Queryable, Selectable, Identifiable, Serialize, Debug, Clone)]
 #[diesel(table_name = crate::schema::variations)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 #[diesel(primary_key(variation_id))]

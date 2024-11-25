@@ -14,13 +14,16 @@ pub struct VariationDto {
     pub price: VariationPriceDto,
     pub attributes_variations: Option<Vec<AttributeCombinationReq>>,
 }
+#[derive(Deserialize, Clone , Debug)]
+pub struct QueryDto{
+    pub detail: Option<bool>,
+}
 
 #[derive(Serialize, Debug)]
 pub struct VariationDtoRes {
     #[serde(flatten)]
     pub variation: Variation,
-
-    pub price: VariationPrice,
+    pub price: Vec<VariationPrice>,
     pub attributes_variations: Vec<AttributeCombination>,
 }
 
@@ -28,7 +31,7 @@ impl VariationDtoRes {
     pub fn new() -> Self {
         Self {
             variation: Variation::new(),
-            price: VariationPrice::new(),
+            price: Vec::new(),
             attributes_variations: Vec::new(),
         }
     }

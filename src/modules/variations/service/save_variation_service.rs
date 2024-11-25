@@ -22,14 +22,11 @@ impl Variation {
             let variation_new: VariationNew = variation_dto.clone().into();
             let variation_saved = Self::save_variation(conn, variation_new)?;
             let combinations = AttributeCombination::save_all_combination(conn, variation_saved.variation_id,variation_dto.attributes_variations.unwrap_or_else(Vec::new))?;
-
-            let price_new: NewVariationPrice = variation_dto.price.into();
-
-            let price_saved = VariationPrice::save(conn, price_new, variation_saved.variation_id)?;
+            let price_saved = VariationPrice::save(conn, variation_dto.price.into(), variation_saved.variation_id)?;
 
             Ok(VariationDtoRes {
                 variation: variation_saved,
-                price: price_saved.into(),
+                price: Vec::new(),//price_saved.into(),
                 attributes_variations: combinations,
             })
         })
