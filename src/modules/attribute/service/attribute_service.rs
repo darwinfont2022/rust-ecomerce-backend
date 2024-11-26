@@ -20,7 +20,7 @@ impl Attribute {
             .get_result(conn)
     }
 
-    pub fn find_all_by_product_id(conn: &mut PgConnection, id_product: i32 ) -> Result<Vec<Self>, DieselError> {
+    pub fn find_all_by_product_id(conn: &mut PgConnection, id_product: &i32 ) -> Result<Vec<Self>, DieselError> {
         use crate::schema::attributes::dsl::*;
 
         attributes

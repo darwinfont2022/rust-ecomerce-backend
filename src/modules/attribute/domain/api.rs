@@ -8,6 +8,7 @@ impl Attribute {
     pub fn api() -> Scope {
         web::scope("/api/attributes")
             .service(save)
+            .service(find_attribute)
             .service(find_by_product_id)
             .service(update)
             .service(delete_attr)
@@ -28,7 +29,21 @@ async fn save(
     }
 }
 
-#[get("/{product_id}")]
+#[get("/{attribute_id}")]
+async fn find_attribute(
+    db_pool: web::Data<DbPool>,
+    id_attribute: web::Path<i32>,
+) -> impl Responder {
+    let mut conn = db_pool.get().expect("Could not get db connection from pool");
+    let attribute_id = id_attribute.into_inner();
+
+    match Attribute::find(&mut conn, &attribute_id) {
+        Ok(res) => HttpResponse::Ok().json(res),
+        Err(_) => ApiException::not_found(format!(" attributes by id {}", &attribute_id).as_str(), None)
+    }
+}
+
+#[get("/product/{product_id}")]
 async fn find_by_product_id(
     db_pool: web::Data<DbPool>,
     id_product: web::Path<i32>,
@@ -36,7 +51,7 @@ async fn find_by_product_id(
     let mut conn = db_pool.get().expect("Could not get db connection from pool");
     let product_id = id_product.into_inner();
 
-    match Attribute::find(&mut conn, &product_id) {
+    match Attribute::find_all_by_product_id(&mut conn, &product_id) {
         Ok(res) => HttpResponse::Ok().json(res),
         Err(_) => ApiException::not_found(format!(" attributes by product id {}", &product_id).as_str(), None)
     }
